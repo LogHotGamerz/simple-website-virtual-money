@@ -1,0 +1,184 @@
+<html>
+  <head>
+    <title>Virtual Money System</title>
+    <style>
+      .currency-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 2px solid #ddd;
+    }
+    
+    .balance {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    
+    .label {
+      display: inline-block;
+      width: 100px;
+    }
+    
+    .amount {
+      display: inline-block;
+      width: 100px;
+      text-align: right;
+    }
+    
+    .buy h2, .use h2 {
+      margin-top: 0;
+    }
+    
+    .form-group {
+      margin-bottom: 10px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    
+    select, input[type="number"] {
+      width: 100%;
+      padding: 5px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+    
+    .btn-buy, .btn-use {
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    
+    .btn-buy:hover, .btn-use:hover {
+      background-color: #2980b9;
+    }
+    
+    .items-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .items-list li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .items-list li:last-child {
+      border-bottom: none;
+    }
+    
+    .name {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
+    .price {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    
+    .btn-use {
+      background-color: #2ecc71;
+    }
+    
+    .btn-use:hover {
+      background-color: #27ae60;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="currency-container">
+      <div class="balance">
+        <span class="label">Balance:</span>
+        <span class="amount">1000</span>
+      </div>
+      <div class="buy">
+        <h2>Buy Coins:</h2>
+        <form>
+          <div class="form-group">
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" min="1" max="100">
+          </div>
+          <div class="form-group">
+            <label for="payment-method">Payment Method:</label>
+            <select id="payment-method" name="payment-method">
+              <option value="credit-card">Credit Card</option>
+              <option value="paypal">PayPal</option>
+              <option value="bitcoin">Bitcoin</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-buy">Buy Now</button>
+        </form>
+      </div>
+      <div class="use">
+        <h2>Use Coins:</h2>
+        <ul class="items-list">
+          <li>
+            <span class="name">Item 1</span>
+            <span class="price">500 Coins</span>
+            <button class="btn-use" data-price="500">Use</button>
+          </li>
+          <li>
+            <span class="name">Item 2</span>
+            <span class="price">1000 Coins</span>
+            <button class="btn-use" data-price="1000">Use</button>
+          </li>
+          <li>
+            <span class="name">Item 3</span>
+            <span class="price">1500 Coins</span>
+            <button class="btn-use" data-price="1500">Use</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <script>
+      // balance element hai ye
+      const balanceElement = document.querySelector('.balance .amount');
+      
+      // buy form
+      const buyForm = document.querySelector('.buy form');
+      const buyAmountInput = buyForm.querySelector('#amount');
+      const buyMethodInput = buyForm.querySelector('#payment-method');
+      
+      // use list and add event listeners to the use buttons
+      const useList = document.querySelector('.use .items-list');
+      const useButtons = useList.querySelectorAll('.btn-use');
+      useButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          // Get the price and subtract it from the balance
+          const price = button.parentElement.querySelector('.price').textContent;
+          const currentBalance = parseInt(balanceElement.textContent);
+          const newBalance = currentBalance - parseInt(price);
+          balanceElement.textContent = newBalance;
+          alert('Item used!');
+        });
+      });
+      
+      // Add event listener to the buy form
+      buyForm.addEventListener('submit', event => {
+        event.preventDefault();
+        // Get the amount and payment method from the form
+        const amount = parseInt(buyAmountInput.value);
+        const method = buyMethodInput.value;
+        // Calculate the new balance
+        const currentBalance = parseInt(balanceElement.textContent);
+        const newBalance = currentBalance + amount;
+        balanceElement.textContent = newBalance;
+        // Show a confirmation message
+        alert(`You bought ${amount} coins using ${method}!`);
+      });
+    </script>
+    </body>
+</html>

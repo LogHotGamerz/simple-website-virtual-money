@@ -1,7 +1,103 @@
 <html>
   <head>
-    <title>Virtual Money System</title>
-    <link rel="stylesheet" href="https://github.com/LogHotGamerz/simple-website-virtual-money/blob/main/assets/css/main.css">
+    <title>Virtual Money System</title>\
+    <style>
+      .currency-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 2px solid #ddd;
+  }
+  
+  .balance {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .label {
+    display: inline-block;
+    width: 100px;
+  }
+  
+  .amount {
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+  }
+  
+  .buy h2, .use h2 {
+    margin-top: 0;
+  }
+  
+  .form-group {
+    margin-bottom: 10px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  select, input[type="number"] {
+    width: 100%;
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+  
+  .btn-buy, .btn-use {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .btn-buy:hover, .btn-use:hover {
+    background-color: #2980b9;
+  }
+  
+  .items-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .items-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .items-list li:last-child {
+    border-bottom: none;
+  }
+  
+  .name {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .price {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .btn-use {
+    background-color: #2ecc71;
+  }
+  
+  .btn-use:hover {
+    background-color: #27ae60;
+  }
+</style>
+    <!-- <link rel="stylesheet"path\to\folder\assets\css\main.css"> -->
   </head>
   <body>
     <div class="currency-container">
@@ -48,6 +144,43 @@
         </ul>
       </div>
     </div>
-    <script src="https://github.com/LogHotGamerz/simple-website-virtual-money/blob/main/assets/js/func.js"></script>
+    <script>
+      // balance element hai ye
+const balanceElement = document.querySelector('.balance .amount');
+      
+// buy form
+const buyForm = document.querySelector('.buy form');
+const buyAmountInput = buyForm.querySelector('#amount');
+const buyMethodInput = buyForm.querySelector('#payment-method');
+      
+// use list and add event listeners to the use buttons
+const useList = document.querySelector('.use .items-list');
+const useButtons = useList.querySelectorAll('.btn-use');
+useButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Get the price and subtract it from the balance
+      const price = button.parentElement.querySelector('.price').textContent;
+      const currentBalance = parseInt(balanceElement.textContent);
+      const newBalance = currentBalance - parseInt(price);
+      balanceElement.textContent = newBalance;
+      alert('Item used!');
+    });
+});
+      
+// Add event listener to the buy form
+buyForm.addEventListener('submit', event => {
+    event.preventDefault();
+    // Get the amount and payment method from the form
+    const amount = parseInt(buyAmountInput.value);
+    const method = buyMethodInput.value;
+    // Calculate the new balance
+    const currentBalance = parseInt(balanceElement.textContent);
+    const newBalance = currentBalance + amount;
+    balanceElement.textContent = newBalance;
+    // Show a confirmation message
+    alert(`You bought ${amount} coins using ${method}!`);
+});
+    </script>
+    <!--<script src="path\to\folder\assets\js\func.js"></script> -->
     </body>
 </html>
